@@ -1,91 +1,13 @@
-# Wiegotcha: Long Range RFID Thieving  
-Wiegotcha is the next evolution of Long Range RFID badge capturing. Based on previous work by Fran Brown and Bishop Fox (Tastic RFID Thief), Wiegotcha uses a Raspberry Pi in place of an Arduino for the added capabilities and ease of customization. One of the immediate benefits of using an RPi is quick and easy wireless communication with the badge reader.  
-  
-Before going any further, I want to make sure to acknowledge those who helped this project, without knowing they did so.  
-1. Fran Brown and BishopFox for the original Tastic RFID Thief (https://www.bishopfox.com/resources/tools/rfid-hacking/attack-tools/). Much of the original Arduino code was ported over into wiegotcha.c.  
-2. pidoorman RPi wiegand reader code (http://pidoorman.co.uk/).  
-3. Kyle Mallory for his fork of the above pidoorman code (found at https://gist.github.com/hsiboy/9598741).  
-4. Derek Eder for his csv to html code (https://github.com/derekeder/csv-to-html-table).  
-5. Gordon Henterson for the wiringPi library (https://projects.drogon.net/raspberry-pi/wiringpi/).  
-  
-## Information  
-Wiegotcha is a simple to build, simple to install, and simple to use tool for capturing RFID badge information from unsuspecting targets. Similar to it's predicessor, the Tastic RFID Thief, the Wiegotcha is designed to be placed inside an HID Maxiprox 5375 (125kHz ProxII cards), Indala ASR-620 (Indala), or an HID R90 (13.56mHz iClass cards). Wiegotcha improves upon previous publicly released long range RFID readers by incorporating wifi out of the box as well as hardware clock for accurate timestamps. Moving from Arduino to Raspberry Pi also means the Wiegotcha is easily customized and improved.  
-  
-Wiegotcha is intended to be built with a Raspberry Pi 3, but the code has been tested on an B+ and 2 (with external Wi-Fi). Testing has not been done on a RPi zero, but it should work. Check out the associated blog post at: http://exfil.co/2017/01/17/wiegotcha-rfid-thief/.  
-  
-Default Passwords:  
-* root:Wiegotcha  
-* pi:Wiegotcha  
-  
-IP Addressing:  
-* eth0 = DHCP  
-* wlan0 = 192.168.150.1  
-  
-Access Point:  
-* ESSID: Wiegotcha  
-* Pass: Wiegotcha  
-* (See a pattern yet?)  
-  
-**Do not forget to change default passwords!**  
-  
-Future Plans (I should say hopes):  
-* GPS Integration?  
-* Proxmark3 Integration (auto- or semi-auto cloning via web app)  
-* Push notifications?  
-* Camera?    
-  
-## Code Installation
-### Easy Mode  
-Easy mode installation is basically the same as installing Raspbian.  
-1. Download the image from https://drive.google.com/file/d/0B9S4W-e61-A7SElWUU1POVBiUEU/view?usp=sharing&resourcekey=0--xEJ7NguQLZxiAr0UuMcWA
-2. Check .gz md5 sum: 7f8b0507e0b58cbc301b39550c59e33d.  
-3. Decompress the image.  
-4. Check .img md5 sum: b68d21f1c0e6b200985a29869491fbf0.  
-5. Use dd or whatever windows uses to push the image to your sd card.  
-6. Ensure ethernet cable is connected and boot.  
-7. Run `/root/Wiegotcha/fixclock.sh` to set correct time to hardware clock.  
-8. Proceed to Hardware Installation.  
-  
-### Manual (longer) Mode
-"Manual" installation is still fairly straight forward. Feel free to explore install.sh and laststep.sh to fully understand what they do.  
-1. Burn a fresh raspbian SD card. You can use Jessie or Jessie-lite.  
-2. Run `sudo su -` to become root  
-3. Run `apt-get update && apt-get -y install git #Skip this step if you're using full Jessie`  
-4. In /root run `git clone https://github.com/lixmk/Wiegotcha`  
-5. Run `cd Wiegotcha && ./install.sh`  
-6. The install script will walk you through everything, including a reboot.  
-7. After first reboot run `screen -dr install` (as root)  
-8. Follow instructions to complete final steps of installation.  
-9. Proceed to Hardware Installation.  
-  
-## Hardware Installation
-Thorough instructions: http://exfil.co/2017/01/17/wiegotcha-rfid-thief/
+List of Mats:
 
-Short version:  
-1. Place the RTC on the RPi's GPIO starting at pin 1 (top left), going down the left side to pin 9.  
-2. Run RPi pin 4 to Level Shifter HV in.  
-3. Run RPi pin 6 to Level Shifter LV gnd.  
-4. Run RPi pin 11 to Level Shifter LV 1.  
-5. Run Rpi pin 12 to Level Shifter LV 4.  
-6. Run RPi pin 17 to Level Shifter LV in.  
-7. Reader TB1-3 to Battery Ground (Black).  
-8. Reader TB1-1 to Battery 12v (Red).  
-9. Reader TB2-1 to Level Shifter HV 1  
-10. Reader TB2-2 to Level Shifter HV 4  
-11. Reader TB1-2 to Level Shifter HV gnd.  
-12. OPTIONAL: Remove Speaker.  
-13. OPTIONAL: Solder haptic motor.  
+- Raspberry Pi 3 (B+): [aliexpress](https://www.aliexpress.com/item/1005005686303304.html?spm=a2g0o.productlist.main.6.3969jJ2yjJ2yt8&aem_p4p_detail=20250519042005935009159132880007479921&algo_pvid=d5333511-ccb5-4910-8805-1f79f21f24f2&algo_exp_id=d5333511-ccb5-4910-8805-1f79f21f24f2-5&pdp_ext_f=%7B"order"%3A"312"%2C"eval"%3A"1"%7D&pdp_npi=4%40dis%21MYR%21179.63%21177.44%21%21%21295.20%21291.60%21%40212a6e3217476536056651103e3b4d%2112000034009583353%21sea%21MY%210%21ABX&curPageLogUid=0uDIlvEbggqn&utparam-url=scene%3Asearch%7Cquery_from%3A&search_p4p_id=20250519042005935009159132880007479921_6)
+- RFID Reader: [networkhardwares](https://www.networkhardwares.com/en-my/products/hid-5375agn00-hid-maxiprox-reader-5375agn00?variant=41685653192909&srsltid=AfmBOor7WgMNfMSwIaxdrBG9vIYli1dGYVl94bgmtmuhXLAmnZmvedtCewo)
+- Level Shifter: [aliexpress](https://www.aliexpress.com/item/1005005984772131.html?spm=a2g0o.productlist.main.1.46400OJI0OJICk&algo_pvid=6571abf5-6aed-4da8-baf4-82c5194bfd16&algo_exp_id=6571abf5-6aed-4da8-baf4-82c5194bfd16-0&pdp_ext_f=%7B"order"%3A"1715"%2C"eval"%3A"1"%7D&pdp_npi=4%40dis%21MYR%219.83%217.64%21%21%212.24%211.74%21%40212e508d17476538814446836e1f48%2112000035183128769%21sea%21MY%210%21ABX&curPageLogUid=b4hWcbkLqd2Q&utparam-url=scene%3Asearch%7Cquery_from%3A)
+- DS3231 Real-time Clock: [aliexpress](https://www.aliexpress.com/item/1005006885926027.html?spm=a2g0o.productlist.main.1.75945a28lEIY6Y&algo_pvid=4201661d-3b66-476c-9956-b9b73488f470&algo_exp_id=4201661d-3b66-476c-9956-b9b73488f470-0&pdp_ext_f=%7B"order"%3A"985"%2C"eval"%3A"1"%7D&pdp_npi=4%40dis%21MYR%217.58%215.39%21%21%2112.45%218.85%21%402102f0cc17476539081614891edd69%2112000038618831072%21sea%21MY%210%21ABX&curPageLogUid=ekCByojonJP3&utparam-url=scene%3Asearch%7Cquery_from%3A)
+- Micro SD Card (16GB): [shopee](https://shopee.com.my/product/91996313/4265313269?gads_t_sig=VTJGc2RHVmtYMTlxTFVSVVRrdENkVzBLS2xuUGZzMlQ5NjlFWklmRkZjVDZqcmZRMVVzdnpqVlVuYXhwMjRobU9mdjNsU3BVeXJtYkRNTU5jNVFyZjRVMW9VWFpZMXpMQk55dDBpa0tDcm9UeGt1Q1hWV3ZOeGs0Y0lBanlka0w&gad_source=1&gad_campaignid=17418986817&gclid=CjwKCAjwravBBhBjEiwAIr30VKKTnYjJ_iBZ-KrlfHYxFsozzCr1WDqsxQyriDCPyYqYTz176efJRBoCRHkQAvD_BwE)
+- 12v Battery with 5v USB: [aliexpress](https://www.aliexpress.com/item/1005008855976719.html?spm=a2g0o.productlist.main.2.7eefdyEEdyEE4N&algo_pvid=0ab90835-fbb0-4a16-a4df-572d1e74f90a&algo_exp_id=0ab90835-fbb0-4a16-a4df-572d1e74f90a-1&pdp_ext_f=%7B"order"%3A"2"%2C"eval"%3A"1"%7D&pdp_npi=4%40dis%21MYR%21243.40%21112.21%21%21%21400.00%21184.40%21%40212e532617476541180304234ed5e4%2112000046962783915%21sea%21MY%210%21ABX&curPageLogUid=IoFUKAGC0uEe&utparam-url=scene%3Asearch%7Cquery_from%3A#nav-specification)
+- Jumper wires (5 Female to Female and 3 Male to Female): [aliexpress](https://www.aliexpress.com/item/1005007138874742.html?spm=a2g0o.productlist.main.1.31f4426d0gp3A4&algo_pvid=6d1a7ab6-3311-40de-ba24-caa3000db992&algo_exp_id=6d1a7ab6-3311-40de-ba24-caa3000db992-0&pdp_ext_f=%7B"order"%3A"8535"%2C"eval"%3A"1"%7D&pdp_npi=4%40dis%21MYR%219.96%213.19%21%21%2116.37%215.24%21%40214100f417476542455093633ebc56%2112000039542189423%21sea%21MY%210%21ABX&curPageLogUid=6Z5h0SUqBJLm&utparam-url=scene%3Asearch%7Cquery_from%3A)
+- Short Micro USB Cable
+- Haptic Motor: [aliexpress](https://www.aliexpress.com/item/1005004626018608.html?spm=a2g0o.productlist.main.4.339e6055ffUh2f&aem_p4p_detail=202505190433403300120488653380002680035&algo_pvid=58544411-5bb5-4263-9455-0be0491cc43b&algo_exp_id=58544411-5bb5-4263-9455-0be0491cc43b-3&pdp_ext_f=%7B"order"%3A"289"%2C"eval"%3A"1"%7D&pdp_npi=4%40dis%21MYR%219.48%217.29%21%21%212.16%211.66%21%402102f0c917476544201681726ef96a%2112000029882404226%21sea%21MY%210%21ABX&curPageLogUid=cvkoIDuwOysi&utparam-url=scene%3Asearch%7Cquery_from%3A&search_p4p_id=202505190433403300120488653380002680035_1)
 
-## BOM
-Links change quite often but I try to keep the BOM list at the bottom of the blog post updated: http://exfil.co/2017/01/17/wiegotcha-rfid-thief/
-
-List:
-* Raspberry Pi 3 
-* RFID Reader (Maxiprox 5375, Indala ASR-620, iClass R90)
-* Level Shifter
-* DS3231 Real-time Clock
-* Micro SD Card (8GB or larger)
-* 12v Battery with 5v USB
-* Jumper wires (I use 5 Female to Female and 3 Male to Female)
-* Short USB Mirco Cable
-* Haptic Motor (Optional)
+  *Grand Total = RM4,036.06 w/o shipping*
